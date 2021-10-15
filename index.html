@@ -1,0 +1,316 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>여러개 마커에 이벤트 등록하기1</title>
+    
+</head>
+<body>
+<div id="map" style="width:100%;height:350px;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+ 
+// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
+var positions = [
+   {
+content: '<div>KB국민은행과 함께하는 나무작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.65383273,127.0601785)
+},
+{
+content: '<div>가온작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6612804,127.0602571)
+},
+{
+content: '<div>가재울 지혜마루 작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.63830505,127.0724452)
+},
+{
+content: '<div>공릉청소년문화정보센터화랑도서관</div>',
+latlng: new kakao.maps.LatLng(37.62151605,127.0830474)
+},
+{
+content: '<div>공릉행복발전소공릉도서관</div>',
+latlng: new kakao.maps.LatLng(37.62204715,127.0727749)
+},
+{
+content: '<div>국민체육진흥공단한국스포츠개발원도서관</div>',
+latlng: new kakao.maps.LatLng(37.63619968,127.105559)
+},
+{
+content: '<div>글빛작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.64796253,127.0808329)
+},
+{
+content: '<div>금빛도서관</div>',
+latlng: new kakao.maps.LatLng(37.65767913,127.0714796)
+},
+{
+content: '<div>꿈꾸는작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.61998514,127.0628794)
+},
+{
+content: '<div>노원문화원작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.62880091,127.0698024)
+},
+{
+content: '<div>노원어린이도서관</div>',
+latlng: new kakao.maps.LatLng(37.65795038,127.07638)
+},
+{
+content: '<div>노원정보도서관</div>',
+latlng: new kakao.maps.LatLng(37.66109973,127.0650094)
+},
+{
+content: '<div>달내작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.63251006,127.0507798)
+},
+{
+content: '<div>도란도란작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.62486678,127.0738885)
+},
+{
+content: '<div>메아리작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.65303481,127.0579938)
+},
+{
+content: '<div>바르미작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.64306999,127.0602625)
+},
+{
+content: '<div>반디작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.66673107,127.0515502)
+},
+{
+content: '<div>북부종합사회복지관 신한카드아름인도서관</div>',
+latlng: new kakao.maps.LatLng(37.67970452,127.0524105)
+},
+{
+content: '<div>북서울미술관아트도서실</div>',
+latlng: new kakao.maps.LatLng(37.64066081,127.0668657)
+},
+{
+content: '<div>불암도서관</div>',
+latlng: new kakao.maps.LatLng(37.64528936,127.0825433)
+},
+{
+content: '<div>삼육대평생교육원 이야기방 작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6450008,127.1054211)
+},
+{
+content: '<div>상계문화정보도서관</div>',
+latlng: new kakao.maps.LatLng(37.67852767,127.0519406)
+},
+{
+content: '<div>상계숲속작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.66944103,127.0504411)
+},
+{
+content: '<div>상계주공14단지아파트문화사랑방도서실</div>',
+latlng: new kakao.maps.LatLng(37.66829198,127.0594617)
+},
+{
+content: '<div>서울점자도서관</div>',
+latlng: new kakao.maps.LatLng(37.64799769,127.0622724)
+},
+{
+content: '<div>서울특별시교육청노원평생학습관</div>',
+latlng: new kakao.maps.LatLng(37.63926786,127.0673774)
+},
+{
+content: '<div>솜니움 독서코칭 전문도서관</div>',
+latlng: new kakao.maps.LatLng(37.65763669,127.0743694)
+},
+{
+content: '<div>수락작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.67291209,127.0832369)
+},
+{
+content: '<div>열린작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.63203897,127.0679492)
+},
+{
+content: '<div>원더풀도서관</div>',
+latlng: new kakao.maps.LatLng(37.62954507,127.0541685)
+},
+{
+content: '<div>월계문화정보도서관</div>',
+latlng: new kakao.maps.LatLng(37.62863532,127.0561218)
+},
+{
+content: '<div>월계어린이도서관</div>',
+latlng: new kakao.maps.LatLng(37.62426736,127.0507933)
+},
+{
+content: '<div>육사작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6209137,127.0912188)
+},
+{
+content: '<div>을지대학교을지병원의학도서실</div>',
+latlng: new kakao.maps.LatLng(37.63643466,127.0699341)
+},
+{
+content: '<div>인제대학교상계백병원의학도서실</div>',
+latlng: new kakao.maps.LatLng(37.64941796,127.0615528)
+},
+{
+content: '<div>작고행복한청구3차도서관</div>',
+latlng: new kakao.maps.LatLng(37.64938521,127.0731951)
+},
+{
+content: '<div>중계사랑작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6587571,127.0779712)
+},
+{
+content: '<div>중계종합사회복지관 CAN DO도서관</div>',
+latlng: new kakao.maps.LatLng(37.65588078,127.0748393)
+},
+{
+content: '<div>중계주공10단지책과친구들</div>',
+latlng: new kakao.maps.LatLng(37.64779916,127.0732771)
+},
+{
+content: '<div>지혜의샘 작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.62648639,127.0718677)
+},
+{
+content: '<div>참사랑평화학교 도서관</div>',
+latlng: new kakao.maps.LatLng(37.63825345,127.0722089)
+},
+{
+content: '<div>책누리작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6477949,127.0802812)
+},
+{
+content: '<div>책사랑작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.65255189,127.0774784)
+},
+{
+content: '<div>책이랑친구랑작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.62128738,127.0833787)
+},
+{
+content: '<div>초안산숲속작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.63207893,127.0444286)
+},
+{
+content: '<div>트램작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.62424117,127.0932751)
+},
+{
+content: '<div>파랑새작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.65748117,127.0678627)
+},
+{
+content: '<div>푸른숲작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.6799248,127.054958)
+},
+{
+content: '<div>하늘작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.64213007,127.0687317)
+},
+{
+content: '<div>하늘품작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.65996921,127.0701066)
+},
+{
+content: '<div>한길문고</div>',
+latlng: new kakao.maps.LatLng(37.66140145,127.0661719)
+},
+{
+content: '<div>한내지혜의숲도서관</div>',
+latlng: new kakao.maps.LatLng(37.62358744,127.0687821)
+},
+{
+content: '<div>한내행복발전소 작은도서관 </div>',
+latlng: new kakao.maps.LatLng(37.62650977,127.0619799)
+},
+{
+content: '<div>한울문고</div>',
+latlng: new kakao.maps.LatLng(37.68833008,127.0547447)
+},
+{
+content: '<div>한울작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.66451805,127.0638167)
+},
+{
+content: '<div>해솔작은도서관</div>',
+latlng: new kakao.maps.LatLng(37.66297913,127.0693658)
+},
+{
+content: '<div>향기나무도서관</div>',
+latlng: new kakao.maps.LatLng(37.64592615,127.0688068)
+}
+];
+
+for (var i = 0; i < positions.length; i ++) {
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng // 마커의 위치
+    });
+
+    // 마커에 표시할 인포윈도우를 생성합니다 
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content // 인포윈도우에 표시할 내용
+    });
+
+    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+}
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+function makeOverListener(map, marker, infowindow) {
+    return function() {
+        infowindow.open(map, marker);
+    };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+function makeOutListener(infowindow) {
+    return function() {
+        infowindow.close();
+    };
+}
+
+/* 아래와 같이도 할 수 있습니다 */
+/*
+for (var i = 0; i < positions.length; i ++) {
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng // 마커의 위치
+    });
+
+    // 마커에 표시할 인포윈도우를 생성합니다 
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content // 인포윈도우에 표시할 내용
+    });
+
+    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    (function(marker, infowindow) {
+        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
+            infowindow.open(map, marker);
+        });
+
+        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+        kakao.maps.event.addListener(marker, 'mouseout', function() {
+            infowindow.close();
+        });
+    })(marker, infowindow);
+}
+*/
+</script>
+</body>
+</html>
